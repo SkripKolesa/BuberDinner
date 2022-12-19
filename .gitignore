@@ -41,3 +41,9 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 **/Properties/launchSettings.json
+
+#IDE
+.vscode
+!./vscode.launch.default.json
+!./vscode.settings.default.json
+!./vscode.tasks.default.json
