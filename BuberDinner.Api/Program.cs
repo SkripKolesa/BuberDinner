@@ -13,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
     // builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
     builder.Services.AddControllers();
-    builder.Services.AddSingleton<ProblemDetailsFactory, BuberDinnerProblemDetailsFactory>();
+    // builder.Services.AddSingleton<ProblemDetailsFactory, BuberDinnerProblemDetailsFactory>();
+    builder.Services.AddProblemDetails(o => o.CustomizeProblemDetails = (p) => p.ProblemDetails.Extensions.Add("customProperty", "customValue2"));
 }
 
 var app = builder.Build();
