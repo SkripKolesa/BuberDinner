@@ -10,7 +10,7 @@ public class ErrorHandlingFilterAttribute : ExceptionFilterAttribute
     {
         var exception = context.Exception;
         var problemDetails = new ProblemDetails{
-            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.6.1",
+            Type = "https://rfc-editor.org/rfc/rfc7231#section-6.6.1",
             Instance = context.HttpContext.Request.Path,
             Status = (int)HttpStatusCode.InternalServerError,
             Title = "An error occurred while processing your request.",
