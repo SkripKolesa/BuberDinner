@@ -1,14 +1,13 @@
-using BuberDinner.Api.Filters;
-using BuberDinner.Application.Common.Errors;
+using System.Reflection.Metadata.Ecma335;
 using BuberDinner.Application.Services.Authentication;
 using BuberDinner.Contracts.Authentication;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuberDinner.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : ApiController
 {
     private readonly IAuthenticationService _authenticationService;
 
@@ -27,18 +26,24 @@ public class AuthenticationController : ControllerBase
             request.Password
         );
 
-        if (registerResult.IsSuccess)
-        {
-            return Ok(MapAuthResult(registerResult.Value));
-        }
+        return registerResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            errors => Problem(errors)
+        );
+    }
 
-        var firstError = registerResult.Errors[0];
-        if (firstError is DuplicateEmailError)
-        {
-            return Problem(statusCode: StatusCodes.Status409Conflict, title: "Email already exists");
-        }
-        return Problem();
+    [HttpPost("login")]
+    public IActionResult Login(LoginRequest request)
+    {
+        var loginResult = _authenticationService.Login(
+            request.Email,
+            request.Password
+        );
 
+        return loginResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            errors => Problem(errors)
+        );
     }
 
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
@@ -49,22 +54,5 @@ public class AuthenticationController : ControllerBase
                     authResult.User.LastName,
                     authResult.User.Email,
                     authResult.Token);
-    }
-
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
-    {
-        var authResult = _authenticationService.Login(
-            request.Email,
-            request.Password
-        );
-        var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
-            authResult.Token
-        );
-        return Ok(response);
     }
 }
