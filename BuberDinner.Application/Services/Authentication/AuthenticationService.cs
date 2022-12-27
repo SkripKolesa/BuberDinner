@@ -22,7 +22,7 @@ public class AuthenticationService : IAuthenticationService
         // 1. Validate the user doesn't exist
         if (_userRepository.GetUserByEmail(email) is not null)
         {
-            throw new DuplicateEmailException("User with given email already exists");
+            throw new DuplicateEmailException();
         }
         // 2. Create user (generate unique ID) & persist to DB
         var user = new User
