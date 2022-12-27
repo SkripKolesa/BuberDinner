@@ -1,4 +1,4 @@
-using BuberDinner.Api.Errors;
+using BuberDinner.Api.Common.Errors;
 using BuberDinner.Api.Filters;
 using BuberDinner.Api.Middleware;
 using BuberDinner.Application;
@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
     // builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
     builder.Services.AddControllers();
     // builder.Services.AddSingleton<ProblemDetailsFactory, BuberDinnerProblemDetailsFactory>();
-    builder.Services.AddProblemDetails(o => o.CustomizeProblemDetails = (p) => p.ProblemDetails.Extensions.Add("customProperty", "customValue2"));
+    // builder.Services.AddProblemDetails(o => o.CustomizeProblemDetails = (p) => p.ProblemDetails.Extensions.Add("customProperty", "customValue2"));
 }
 
 var app = builder.Build();
