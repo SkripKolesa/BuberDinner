@@ -1,16 +1,10 @@
+using System.Net;
+
 namespace BuberDinner.Application.Common.Errors;
 
-public class DuplicateEmailException : Exception
+public class DuplicateEmailException : Exception, IServiceException
 {
-    public DuplicateEmailException() : base()
-    {
-    }
+    public HttpStatusCode StatusCode => HttpStatusCode.Conflict;
 
-    public DuplicateEmailException(string? message) : base(message)
-    {
-    }
-
-    public DuplicateEmailException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
+    public string ErrorMessage => "Email already exists";
 }
