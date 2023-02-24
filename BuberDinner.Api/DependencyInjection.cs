@@ -1,4 +1,5 @@
 using BuberDinner.Api.Common.Http;
+using BuberDinner.Api.Common.Mapping;
 using ErrorOr;
 
 namespace BuberDinner.Api;
@@ -9,6 +10,7 @@ public static class DependencyInjection
     {
         services.AddControllers();
         services.AddProblemDetails(o => o.CustomizeProblemDetails = CustomizeProblemDetails);
+        services.AddMappings();
         return services;
     }
 
