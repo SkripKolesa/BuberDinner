@@ -1,5 +1,6 @@
 ﻿using Mapping;
 using Mapster;
+using MapsterMapper;
 
 internal class Program
 {
@@ -7,7 +8,7 @@ internal class Program
     {
         var user = UserGenerator.GenerateRandom();
         var traceId = Guid.NewGuid();
-
+        IMapper _mapper = new Mapper();
         TypeAdapterConfig.GlobalSettings.NewConfig<(User user, Guid traceId), UserResponse>()
             .Map(dest => dest, src => user)
             .Map(dest => dest.TraceId, src => traceId);
@@ -15,7 +16,7 @@ internal class Program
         TypeAdapterConfig.GlobalSettings.ForDestinationType<IValidatable>()
             .AfterMapping(dest => dest.Validate());
 
-        var userResponse = (user, traceId).Adapt<UserResponse>();
+        var userResponse = _mapper.Map<UserResponse>((user, traceId));
         Console.WriteLine(user);
         Console.WriteLine(userResponse);
     }
