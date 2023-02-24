@@ -2,5 +2,7 @@ namespace Mapping;
 
 public record UserResponse(
     int Id,
-    string FullName
+    string FirstName,
+    string LastName,
+    string TraceId
 );
