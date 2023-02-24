@@ -1,15 +1,12 @@
 ﻿using Mapping;
+using Mapster;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
         var user = UserGenerator.GenerateRandom();
-        var userResponse = new UserResponse(
-            user.Id,
-            user.FirstName,
-            user.LastName
-        );
+        var userResponse = user.Adapt<UserResponse>();
         Console.WriteLine(user);
         Console.WriteLine(userResponse);
     }
