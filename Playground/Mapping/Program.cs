@@ -12,6 +12,9 @@ internal class Program
             .Map(dest => dest, src => user)
             .Map(dest => dest.TraceId, src => traceId);
 
+        TypeAdapterConfig.GlobalSettings.ForDestinationType<IValidatable>()
+            .AfterMapping(dest => dest.Validate());
+
         var userResponse = (user, traceId).Adapt<UserResponse>();
         Console.WriteLine(user);
         Console.WriteLine(userResponse);

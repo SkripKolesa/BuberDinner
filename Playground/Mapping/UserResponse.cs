@@ -5,4 +5,4 @@ public record UserResponse(
     string FirstName,
     string LastName,
     string TraceId
-);
+): IValidatable;
